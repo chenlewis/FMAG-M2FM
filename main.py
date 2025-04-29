@@ -17,42 +17,26 @@ import torch
 from sklearn import metrics
 
 def train(**kwargs):
-    # log_file = '/home/lyj/code_lpq/test/SRDID162/FMAG/log.txt'
-    # log_file = '/home/lyj/CNN/log/ViT1/log.txt'
-    # log_file = '/home/lyj/CNN/log/ViT_Cyclegan/log.txt'
-    # log_file = '/home/lyj/CNN/log/Swin_Cyclegan/log.txt'
-    # log_file = '/home/lyj/CNN/log/BeiT_Cyclegan/log.txt'
-    log_file = '/pubdata/lipeiquan/CNN/log/DiNAT_Cyclegan/log.txt'
-    # log_file = '/home/lyj/CNN/log/FocalNet_Cyclegan/log.txt'
-    # log_file = '/home/lyj/CNN/log/ConvNeXtTiny_Cyclegan/log.txt'
-    # log_file = '/home/lyj/CNN/log/Swin/log.txt'
-    # log_file = '/home/lyj/CNN/log/Swin_TMTP1/log.txt'
-    # log_file = '/home/lyj/CNN/log/BeiT_TMTP1/log.txt'
-    # log_file = '/home/lyj/CNN/log/Swin_FMAG/log.txt'
-    # log_file = '/home/lyj/CNN/log/Swin_HPF/log.txt'
-
-    # log_file = '/home/lyj/CNN/log/ViT_TMTP1/log.txt'
-    # log_file = '/home/lyj/CNN/log/ViT_FMAG/log.txt'
-    # log_file = '/home/lyj/CNN/log/ViT_HPF/log.txt'
+    log_file = '/home/lyj/CNN/log/ViT/log.txt'
 
     k = 1
-    for j in range(k):  # k 是你的迭代次数
-        opt._parse(kwargs)  # 解析参数（假设你的 opt 对象有一个 _parse 方法）
+    for j in range(k):  # k 迭代次数
+        opt._parse(kwargs)  # 解析参数
         with open(log_file, 'a') as f:
             f.write(f"Device: {opt.device}\n")
             f.write("User config:\n")
             for k, v in opt.__class__.__dict__.items():
                 if not k.startswith('_'):
                     f.write(f"{k}: {v}\n")
-        # model = getattr(models, opt.model)()  # 根据模型名称获取模型实例
+                    
         model = getattr(models, opt.model)()  # 根据模型名称获取模型实例
         if opt.use_multi_gpu:
             num_gpus = t.cuda.device_count()
-            if num_gpus >= 2:  # 检查是否有足够的 GPU
+            if num_gpus >= 2:  
                 device_ids = list(range(num_gpus))
             else:
-                device_ids = [2]  # 如果没有足够的 GPU，则默认使用第一个 GPU
-            net = t.nn.DataParallel(model, device_ids=device_ids)  # 使用多 GPU 运行模型
+                device_ids = [2]  
+            net = t.nn.DataParallel(model, device_ids=device_ids)  # 使用多 GPU 
             print(f"Using GPUs: {device_ids}")
         else:
             net = model.to(opt.device)  # 使用单个 GPU 或 CPU 运行模型
@@ -63,15 +47,12 @@ def train(**kwargs):
         # 打印设备信息以便调试
         print(f"Model is on device: {opt.device}")
 
-        # train_data = Copy_Detection_1(img, train=True, i=j)
         train_data = Copy_Detection_1(root=opt.train_data_root_cnn_1, train=True)
         train_loader = DataLoader(train_data, batch_size=opt.batch_size_0, shuffle=True, num_workers=opt.num_workers)
-        # val_data = Copy_Detection_1(img, train=False, i=j)
         val_data = Copy_Detection_1(root=opt.train_data_root_cnn_1, train=False)
         val_loader = DataLoader(val_data, batch_size=opt.batch_size_1, shuffle=True, num_workers=opt.num_workers)
         test_data = Copy_Detection(opt.test_data_root, test=True)
         test_loader = DataLoader(test_data, batch_size=opt.batch_size_1, shuffle=False, num_workers=opt.num_workers)
-
 
         criterion = nn.CrossEntropyLoss()
         lr = opt.lr
@@ -113,46 +94,10 @@ def train(**kwargs):
             print("epoch:{epoch}, lr:{lr}, loss:{loss}, train_accuracy:{train_accuracy}, val_accuracy:{val_accuracy}".format(
                 epoch=epoch, lr=lr, loss=loss_meter.value()[0],
                 train_accuracy=train_accuracy, val_accuracy=val_accuracy))
-            if epoch < 5:
-                # t.save(model.state_dict(), '/home/lyj/CNN/weight/HPF/ViT/ViT-{}.pth'.format(epoch))
-                # t.save(model.state_dict(), '/home/lyj/CNN/weight/HPF/SwinB/Swin-{}.pth'.format(epoch))
-                # t.save(model.state_dict(), '/home/lyj/CNN/weight/Original/Swin1/Swin-{}.pth'.format(epoch))
-                # t.save(model.state_dict(), '/home/lyj/CNN/weight/TMTP1/SwinB/Swin-{}.pth'.format(epoch))
-                # t.save(model.state_dict(), '/home/lyj/CNN/weight/TMTP1/BeiTB/BeiT-{}.pth'.format(epoch))
-                # t.save(model.state_dict(), '/home/lyj/CNN/weight/Cyclegan/SwinB1/Swin-{}.pth'.format(epoch))
-                # t.save(model.state_dict(), '/home/lyj/CNN/weight/Cyclegan/BeiTB/BeiT-{}.pth'.format(epoch))
-                t.save(model.state_dict(), '/pubdata/lipeiquan/CNN/weight/Cyclegan/DiNATB/DiNAT-{}.pth'.format(epoch))
-                # t.save(model.state_dict(), '/home/lyj/CNN/weight/Cyclegan/FocalNetB/FocalNet-{}.pth'.format(epoch))
-                # t.save(model.state_dict(), '/home/lyj/CNN/weight/Cyclegan/DiNATB/DiNATB-{}.pth'.format(epoch))
-                # t.save(model.state_dict(), '/home/lyj/CNN/weight/Cyclegan/ConvNeXtTiny/ConvNeXtTiny-{}.pth'.format(epoch))
+
             if best_acc < val_accuracy:
                 best_acc = val_accuracy
-                # t.save(model.state_dict(), '/home/lyj/code_lpq/Output_RODHQ/FMAG//ViT-{}.pth'.format(epoch))
-                # t.save(model.state_dict(), '/home/lyj/CNN/weight/Original/ViT1/ViT-{}.pth'.format(epoch))
-                # t.save(model.state_dict(), '/home/lyj/CNN/weight/Original/Swin/Swin-{}.pth'.format(epoch))
-                # t.save(model.state_dict(), '/home/lyj/CNN/weight/Original/Swin1/Swin-{}.pth'.format(epoch))
-
-                # t.save(model.state_dict(), '/home/lyj/CNN/weight/TMTP/ViT1/ViT-{}.pth'.format(epoch))
-                # t.save(model.state_dict(), '/home/lyj/CNN/weight/TMTP/SwinB/Swin-{}.pth'.format(epoch))
-                # t.save(model.state_dict(), '/home/lyj/CNN/weight/TMTP/SwinB1/Swin-{}.pth'.format(epoch))
-                # t.save(model.state_dict(), '/home/lyj/CNN/weight/TMTP1/SwinB/Swin-{}.pth'.format(epoch))
-
-                # t.save(model.state_dict(), '/home/lyj/CNN/weight/TMTP1/SwinB/Swin-{}.pth'.format(epoch))
-                # t.save(model.state_dict(), '/home/lyj/CNN/weight/TMTP1/BeiTB/BeiT-{}.pth'.format(epoch))
-
-                # t.save(model.state_dict(), '/home/lyj/CNN/weight/Cyclegan/ViT/ViT-{}.pth'.format(epoch))
-                # t.save(model.state_dict(), '/home/lyj/CNN/weight/Cyclegan/SwinB1/Swin-{}.pth'.format(epoch))
-                # t.save(model.state_dict(), '/home/lyj/CNN/weight/Cyclegan/BeiTB/BeiT-{}.pth'.format(epoch))
-                t.save(model.state_dict(), '/pubdata/lipeiquan/CNN/weight/Cyclegan/DiNATB/DiNAT-{}.pth'.format(epoch))
-                # t.save(model.state_dict(), '/home/lyj/CNN/weight/Cyclegan/FocalNetB/FocalNet-{}.pth'.format(epoch))
-                # t.save(model.state_dict(), '/home/lyj/CNN/weight/Cyclegan/DiNATB/DiNATB-{}.pth'.format(epoch))
-                # t.save(model.state_dict(), '/home/lyj/CNN/weight/Cyclegan/ConvNeXtTiny/ConvNeXtTiny-{}.pth'.format(epoch))
-
-                # t.save(model.state_dict(), '/home/lyj/CNN/weight/FMAG/ViT/ViT-{}.pth'.format(epoch))
-                # t.save(model.state_dict(), '/home/lyj/CNN/weight/FMAG/SwinB1/Swin-{}.pth'.format(epoch))
-
-                # t.save(model.state_dict(), '/home/lyj/CNN/weight/HPF/ViT/ViT-{}.pth'.format(epoch))
-                # t.save(model.state_dict(), '/home/lyj/CNN/weight/HPF/SwinB/Swin-{}.pth'.format(epoch))
+                t.save(model.state_dict(), '/home/lyj/CNN/weight/Original/ViT/ViT-{}.pth'.format(epoch))
 
             if loss_meter.value()[0] > previous_loss:
                 lr = lr * opt.lr_decay
@@ -168,7 +113,6 @@ def train(**kwargs):
                 f.write(
                     f"epoch:{epoch}, lr:{lr}, loss:{loss_meter.value()[0]}, train_accuracy:{train_accuracy}, val_accuracy:{val_accuracy}\n")
                 f.write(f'Test AUC: {test_auc}, Test EER: {test_eer}\n')
-
 
 def val(model, dataloader):
     model.eval()
@@ -212,8 +156,7 @@ def val_test(model, test_loader):
 
 def test(**kwargs):
 
-    # log_file = '/pubdata/lipeiquan/CNN/log/DiNAT_Cyclegan/log.txt'
-    log_file = '/home/data1/lyj/CMA/test/SRDID162/FMAG/DMRODAUG0/Vit/Train2/log_2.txt'
+    log_file = '/home/lyj/CNN/log/ViT/log.txt'
     k = 1
     for j in range(k):  # Assuming k is the number of iterations
         opt._parse(kwargs)
@@ -231,9 +174,7 @@ def test(**kwargs):
         # model.load(opt.load_model_path)
     model.to(opt.device)
     model.eval()
-    # model = getattr(models, opt.model)().eval().to(opt.device)
-    # if opt.load_model_path:
-    #     model.load(opt.load_model_path)
+
     if opt.use_multi_gpu:
         print("111")
         num_gpus = t.cuda.device_count()
@@ -320,8 +261,6 @@ def ComputeMetric(y_true, y_score, pos_label=1):
     eer, best_thresh = compute_eer(fpr, tpr, thresholds)
 
     return auc, eer
-# if __name__ == '__main__':
-#     tsne()
 
 if __name__ == '__main__':
     import fire
