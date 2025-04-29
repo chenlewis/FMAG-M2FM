@@ -50,8 +50,6 @@ def train(**kwargs):
         train_loader = DataLoader(train_data, batch_size=opt.batch_size_0, shuffle=True, num_workers=opt.num_workers)
         val_data = Copy_Detection_1(root=opt.train_data_root_cnn_1, train=False)
         val_loader = DataLoader(val_data, batch_size=opt.batch_size_1, shuffle=True, num_workers=opt.num_workers)
-        test_data = Copy_Detection(opt.test_data_root, test=True)
-        test_loader = DataLoader(test_data, batch_size=opt.batch_size_1, shuffle=False, num_workers=opt.num_workers)
 
         criterion = nn.CrossEntropyLoss()
         lr = opt.lr
@@ -105,14 +103,6 @@ def train(**kwargs):
                     param_group['lr'] = lr
             previous_loss = loss_meter.value()[0]
 
-            # Evaluate on test set and print AUC, EER
-            confusion_matrix, accuracy,test_auc, test_eer = val_test(model, test_loader)
-            print(f'Test AUC: {test_auc}, Test EER: {test_eer}')
-            with open(log_file, 'a') as f:
-                f.write(
-                    f"epoch:{epoch}, lr:{lr}, loss:{loss_meter.value()[0]}, train_accuracy:{train_accuracy}, val_accuracy:{val_accuracy}\n")
-                f.write(f'Test AUC: {test_auc}, Test EER: {test_eer}\n')
-
 def val(model, dataloader):
     model.eval()
     confusion_matrix = meter.ConfusionMeter(2)
@@ -126,32 +116,6 @@ def val(model, dataloader):
     cm_value = confusion_matrix.value()
     accuracy = 100 * (cm_value[0][0] + cm_value[1][1]) / (cm_value.sum())
     return confusion_matrix, accuracy
-
-def val_test(model, test_loader):
-    model.eval()
-    confusion_matrix = meter.ConfusionMeter(2)
-    y_true = []
-    y_score = []
-
-    for ii, (data, label, path) in enumerate(tqdm(test_loader, desc="Processing")):  # 忽略标签
-        test_input = data.to(opt.device)
-        label = label.to(opt.device)
-        score = model(test_input)
-        probability = F.softmax(score, dim=1)[:, 1].detach().cpu().tolist()
-        confusion_matrix.add(score.detach().squeeze(), label.type(t.LongTensor))
-        probability_tensor = t.tensor(probability, dtype=t.float32)
-        y_score.extend(probability_tensor.cpu().numpy())
-        # Collect true labels and predicted scores for metrics calculation
-        y_true.extend(label.cpu().numpy())
-        # y_score.extend(probability.detach().cpu().numpy())
-
-    cm_value = confusion_matrix.value()
-    accuracy = 100 * (cm_value[0][0] + cm_value[1][1]) / (cm_value.sum())
-
-    # Calculate additional evaluation metrics
-    auc, eer = ComputeMetric(y_true, y_score)
-
-    return confusion_matrix, accuracy, auc, eer
 
 def test(**kwargs):
 
