@@ -26,9 +26,9 @@ class ViTB16(BasicModule):
 
     def get_optimizer(self, lr, weight_decay, freeze=True):
         if freeze:
-            for param in self.model.parameters():  # 冻结主干参数
+            for param in self.model.parameters():  
                 param.requires_grad = False
-            for param in self.model.heads.parameters():  # 解冻头部参数
+            for param in self.model.heads.parameters():  
                 param.requires_grad = True
             print('ViTB16 model freeze cnn weights')
             return Adam(self.model.heads.parameters(), lr, weight_decay=weight_decay)
@@ -53,9 +53,9 @@ class SwinB(BasicModule):
 
     def get_optimizer(self, lr, weight_decay, freeze=True):
         if freeze:
-            for param in self.model.parameters():  # 冻结主干参数
+            for param in self.model.parameters(): 
                 param.requires_grad = False
-            for param in self.model.head.parameters():  # 解冻头部参数
+            for param in self.model.head.parameters():  
                 param.requires_grad = True
             print('SwinB model freeze cnn weights')
             return Adam(self.model.head.parameters(), lr, weight_decay=weight_decay)
@@ -68,7 +68,6 @@ class BeiTB(BasicModule):
     def __init__(self, model_name='BeiTB'):
         super(BeiTB, self).__init__()
         self.model_name = model_name
-        # self.model = BeitForImageClassification.from_pretrained("microsoft/beit-base-patch16-224")
         self.model = BeitForImageClassification.from_pretrained("/home/lyj/.cache/huggingface/hub/models-microsoft-beit-base")
         self.model.classifier = nn.Sequential(
             nn.Linear(768, 256),
@@ -80,9 +79,9 @@ class BeiTB(BasicModule):
 
     def get_optimizer(self, lr, weight_decay, freeze=True):
         if freeze:
-            for param in self.model.parameters():  # Freeze backbone parameters
+            for param in self.model.parameters():  
                 param.requires_grad = False
-            for param in self.model.classifier.parameters():  # Unfreeze head parameters
+            for param in self.model.classifier.parameters():  
                 param.requires_grad = True
             print('BeiT-B model freeze cnn weights')
             return Adam(self.model.classifier.parameters(), lr, weight_decay=weight_decay)
@@ -95,7 +94,6 @@ class DiNATB(nn.Module):
     def __init__(self, model_name='DiNATB'):
         super(DiNATB, self).__init__()
         self.model_name = model_name
-        # self.model = DinatForImageClassification.from_pretrained("shi-labs/dinat-base-in1k-224")
         self.model = DinatForImageClassification.from_pretrained("/home/lipeiquan/.cache/huggingface/hub/models-shi-labs-dinat-base")
         self.model.classifier = nn.Sequential(
             nn.Linear(self.model.dinat.num_features, 256),
@@ -108,9 +106,9 @@ class DiNATB(nn.Module):
 
     def get_optimizer(self, lr, weight_decay, freeze=True):
         if freeze:
-            for param in self.model.parameters():  # Freeze backbone parameters
+            for param in self.model.parameters():  
                 param.requires_grad = False
-            for param in self.model.classifier.parameters():  # Unfreeze head parameters
+            for param in self.model.classifier.parameters():  
                 param.requires_grad = True
             print('DiNAT-B model freeze cnn weights')
             return Adam(self.model.classifier.parameters(), lr, weight_decay=weight_decay)
@@ -118,12 +116,10 @@ class DiNATB(nn.Module):
             print('DiNAT-B model does not freeze cnn weights')
             return Adam(self.parameters(), lr=lr, weight_decay=weight_decay)
 
-
 class FocalNetB(BasicModule):
     def __init__(self, model_name='FocalNetB'):
         super(FocalNetB, self).__init__()
         self.model_name = model_name
-        # self.model = FocalNetForImageClassification.from_pretrained("microsoft/focalnet-base-patch16-224")
         self.model = FocalNetForImageClassification.from_pretrained("/home/lyj/.cache/huggingface/hub/models-microsoft-focalnet")
         self.model.classifier = nn.Sequential(
             nn.Linear(self.model.focalnet.num_features, 256),
@@ -135,9 +131,9 @@ class FocalNetB(BasicModule):
 
     def get_optimizer(self, lr, weight_decay, freeze=True):
         if freeze:
-            for param in self.model.parameters():  # Freeze backbone parameters
+            for param in self.model.parameters(): 
                 param.requires_grad = False
-            for param in self.model.classifier.parameters():  # Unfreeze head parameters
+            for param in self.model.classifier.parameters(): 
                 param.requires_grad = True
             print('FocalNet-B model freeze cnn weights')
             return Adam(self.model.classifier.parameters(), lr, weight_decay=weight_decay)
@@ -146,17 +142,15 @@ class FocalNetB(BasicModule):
             return Adam(self.parameters(), lr=lr, weight_decay=weight_decay)
 
 
-
 class ConvNeXtTiny(BasicModule):
     def __init__(self, model_name='ConvNeXtTiny'):
         super(ConvNeXtTiny, self).__init__()
         self.model_name = model_name
         self.model = convnext_tiny(weights=ConvNeXt_Tiny_Weights.IMAGENET1K_V1)
-        # 保留原始归一化层和维度处理层
         original_layers = list(self.model.classifier.children())
         self.model.classifier = nn.Sequential(
-            original_layers[0],  # LayerNorm2d
-            original_layers[1],  # Permute层
+            original_layers[0], 
+            original_layers[1],  
             nn.Linear(768, 256),
             nn.ReLU(inplace=True),
             nn.Linear(256, 2)
@@ -167,9 +161,9 @@ class ConvNeXtTiny(BasicModule):
 
     def get_optimizer(self, lr, weight_decay, freeze=True):
         if freeze:
-            for param in self.model.parameters():  # Freeze backbone parameters
+            for param in self.model.parameters():  
                 param.requires_grad = False
-            for param in self.model.classifier.parameters():  # Unfreeze head parameters
+            for param in self.model.classifier.parameters(): 
                 param.requires_grad = True
             print('ConvNeXtTiny model freeze cnn weights')
             return Adam(self.model.classifier.parameters(), lr, weight_decay=weight_decay)
@@ -179,8 +173,8 @@ class ConvNeXtTiny(BasicModule):
 
 
 if __name__ == '__main__':
-    # model = ViTB16()  # 创建ViTB16模型实例
+    model = ViTB16()  
     # model = FocalNetB()
-    model = ConvNeXtTiny()
-    total_params = sum(p.numel() for p in model.parameters())  # 计算模型的总参数数量
+    # model = ConvNeXtTiny()
+    total_params = sum(p.numel() for p in model.parameters())  
     print("ViTB16模型的总参数数量:", total_params)
