@@ -1,4 +1,4 @@
-from config import opt
+from config.config1 import opt
 import os
 import torch as t
 import torch.nn.functional as F
