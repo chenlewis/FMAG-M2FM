@@ -1,4 +1,4 @@
-# Moire Spectral Augmentation and Masked Frequency Modeling for Document Presentation Attack Detection
+# Moiré Spectral Augmentation and Masked Frequency Modeling for Document Presentation Attack Detection
 Our work has been accepted for publication in IEEE Transactions on Dependable and Secure Computing.
 
 ![Method Overview](figure/image1.png)
@@ -38,7 +38,7 @@ DM/
 
 We use **SRDID162** for testing. You can download the dataset [here](https://pan.baidu.com/s/1M2GYhMPQHe6af_gvGT1Z1w).   🔑Extraction code: `89kx`
 
-## Frequency-domain Moire AuGmentation (FMAG)
+## Frequency-domain Moiré AuGmentation (FMAG)
 
 ## DPAD Network Trained by FMAG
 
@@ -49,3 +49,5 @@ We use **SRDID162** for testing. You can download the dataset [here](https://pan
 
 ### Testing 
 run `python main_backbone.py test`.
+
+## Masked Moiré Frequency Modeling (M²FM)
