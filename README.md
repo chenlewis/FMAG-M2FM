@@ -3,7 +3,7 @@ Our work has been accepted for publication in IEEE Transactions on Dependable an
 
 ![Method Overview](figure/image1.png)
 
-## Requirments and Installation
+## Requirments
 
 For environment setup, please follow the [MFM installation](https://github.com/Jiahao000/MFM/blob/master/docs/INSTALL.md).
 
@@ -43,4 +43,5 @@ We collect a large-scale and comprehensive document image dataset, named **SRDID
 
 You can download the dataset [here]()
 
+## DPAD Network Trained by FMAG
 
