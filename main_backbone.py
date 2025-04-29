@@ -6,7 +6,6 @@ from torch.utils.data import DataLoader
 import models
 from data.dataset import Copy_Detection, Copy_Detection_1
 # from torchnet import meter
-from utils.visualizer import Visualizer
 import torch.nn as nn
 from torch.nn import functional as T
 from tqdm import tqdm
