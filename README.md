@@ -51,3 +51,18 @@ We use **SRDID162** for testing. You can download the dataset [here](https://pan
 run `python main_backbone.py test`.
 
 ## Masked Moiré Frequency Modeling (M²FM)
+
+
+## Citation
+
+If you find our work helpful in your research, please cite it as:
+
+```
+```
+
+## Acknowledgements
+
+We would like to express our sincere gratitude to the authors of the MFM project for their invaluable contributions. The open-source code provided by the MFM team has been instrumental in the development of this project. 
+
+Special thanks to the MFM team for their dedication to advancing research and providing a robust foundation for others to build upon. You can find their work here: [MFM GitHub](https://github.com/Jiahao000/MFM).
+
