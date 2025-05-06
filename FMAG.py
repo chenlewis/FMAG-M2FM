@@ -89,20 +89,20 @@ def get_mask(img_fft, raw_peek):
     moire_peek = 112 - peek
 
     mask = np.zeros((224, 224, 3), np.uint8)
-    cv2.circle(mask, (112 + peek, 112), 10, (1, 1, 1), -1)
-    cv2.circle(mask, (112 - peek, 112), 10, (1, 1, 1), -1)
-    cv2.circle(mask, (112, 112 + peek), 10, (1, 1, 1), -1)
-    cv2.circle(mask, (112, 112 - peek), 10, (1, 1, 1), -1)
+    cv2.circle(mask, (112 + peek, 112), 5, (1, 1, 1), -1)
+    cv2.circle(mask, (112 - peek, 112), 5, (1, 1, 1), -1)
+    cv2.circle(mask, (112, 112 + peek), 5, (1, 1, 1), -1)
+    cv2.circle(mask, (112, 112 - peek), 5, (1, 1, 1), -1)
 
-    cv2.circle(mask, (112 + close_peek, 112), 10, (1, 1, 1), -1)
-    cv2.circle(mask, (112 - close_peek, 112), 10, (1, 1, 1), -1)
-    cv2.circle(mask, (112, 112 + close_peek), 10, (1, 1, 1), -1)
-    cv2.circle(mask, (112, 112 - close_peek), 10, (1, 1, 1), -1)
+    cv2.circle(mask, (112 + close_peek, 112), 5, (1, 1, 1), -1)
+    cv2.circle(mask, (112 - close_peek, 112), 5, (1, 1, 1), -1)
+    cv2.circle(mask, (112, 112 + close_peek), 5, (1, 1, 1), -1)
+    cv2.circle(mask, (112, 112 - close_peek), 5, (1, 1, 1), -1)
 
-    cv2.circle(mask, (112 + moire_peek, 112), 10, (1, 1, 1), -1)
-    cv2.circle(mask, (112 - moire_peek, 112), 10, (1, 1, 1), -1)
-    cv2.circle(mask, (112, 112 + moire_peek), 10, (1, 1, 1), -1)
-    cv2.circle(mask, (112, 112 - moire_peek), 10, (1, 1, 1), -1)
+    cv2.circle(mask, (112 + moire_peek, 112), 5, (1, 1, 1), -1)
+    cv2.circle(mask, (112 - moire_peek, 112), 5, (1, 1, 1), -1)
+    cv2.circle(mask, (112, 112 + moire_peek), 5, (1, 1, 1), -1)
+    cv2.circle(mask, (112, 112 - moire_peek), 5, (1, 1, 1), -1)
 
     return mask
 
