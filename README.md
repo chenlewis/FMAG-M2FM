@@ -38,6 +38,9 @@ DM/
 
 We use **SRDID162** for testing. You can download the dataset [here](https://pan.baidu.com/s/1M2GYhMPQHe6af_gvGT1Z1w).   🔑Extraction code: `89kx`
 
+## Frequency-domain Moiré AuGmentation (FMAG)
+The FMAG is implemented in `FMAG.py` and run `python FMAG.py`.
+
 ## DPAD Network Trained by FMAG
 
 ### Training
@@ -48,8 +51,7 @@ We use **SRDID162** for testing. You can download the dataset [here](https://pan
 ### Testing 
 run `python main_backbone.py test`.
 
-## The code of Frequency-domain Moiré AuGmentation (FMAG) and Masked Moiré Frequency Modeling (M²FM) are coming soon.
-
+## The code of Masked Moiré Frequency Modeling (M²FM) is coming soon.
 
 ## Citation
 
