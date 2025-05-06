@@ -53,7 +53,7 @@ def show(img):
     plt.show()
 
 
-def add_noise(spectral, mask, a1=0.4, a2=0.6, mu=0, sigma=1): # mask保留非摩尔纹特征位置
+def add_noise(spectral, mask, a1=0.5, a2=0.8, mu=0, sigma=1): 
     height, width, depth = spectral.shape
     mask1 = 1 - mask
 
@@ -87,9 +87,6 @@ def get_mask(img_fft, raw_peek):
     peek = int((peek_1 + peek_2) / 2)
     close_peek = get_most_close_int(peek)
     moire_peek = 112 - peek
-
-    print(
-        f"peek_1: {peek_1}, peek_2: {peek_2}, peek: {peek}, close_peek: {close_peek}, moire_peek: {moire_peek}")
 
     mask = np.zeros((224, 224, 3), np.uint8)
     cv2.circle(mask, (112 + peek, 112), 10, (1, 1, 1), -1)
@@ -129,22 +126,7 @@ def Moire_fag(img, raw_peak):
     mask1 = 1 - mask
 
     img_fft_abs_mask = img_fft_abs * mask
-
-    # plt.figure()
-    # img_fft_abs_mask2 = np.mean(img_fft_abs_mask, axis=2)
-    # plt.imshow(np.log(img_fft_abs_mask2 + 1), cmap='gray')
-    # plt.title('img_fft_abs_mask2')
-    # plt.axis('off')
-    # plt.show()
-
     img_fft_abs_mask1 = img_fft_abs * mask1
-
-    # plt.figure()
-    # img_fft_abs_mask3 = np.mean(img_fft_abs_mask1, axis=2)
-    # plt.imshow(np.log(img_fft_abs_mask3 + 1), cmap='gray')
-    # plt.title('img_fft_abs_mask3')
-    # plt.axis('off')
-    # plt.show()
 
     img_fft_abs_mask1_noise = add_noise(img_fft_abs_mask1, mask1)
     img_fft_abs_new = img_fft_abs_mask + img_fft_abs_mask1_noise
