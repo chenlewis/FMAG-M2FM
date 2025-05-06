@@ -136,7 +136,7 @@ def Moire_fag(img, raw_peak):
     return img_aug
 
 img_path = 'IMG_20230521_231421_224_672.jpg'
-raw_peak = 95
+raw_peak = 95 # caculated according recaptured device parameter
 img = cv2.imread(img_path)
 
 show(img)
