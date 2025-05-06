@@ -56,12 +56,12 @@ run `python main_backbone.py test`.
 If you find our work helpful in your research, please cite it as:
 
 ```
-@article{chen2025moire,
-  title={Moire Spectral Augmentation and Masked{\'{}} Frequency Modeling for Document Presentation Attack Detection},
+@ARTICLE{10981968,
   author={Chen, Changsheng and Li, Youjie and Li, Bokang and Yu, Weifan and Chen, Baoying and Li, Bin and Huang, Jiwu},
-  journal={IEEE Transactions on Dependable and Secure Computing},
+  journal={IEEE Transactions on Dependable and Secure Computing}, 
+  title={Moire Spectral Augmentation and Masked ´ Frequency Modeling for Document Presentation Attack Detection}, 
   year={2025},
-  publisher={IEEE}
+  pages={1-16},
 }
 ```
 
