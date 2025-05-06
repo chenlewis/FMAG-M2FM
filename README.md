@@ -38,8 +38,6 @@ DM/
 
 We use **SRDID162** for testing. You can download the dataset [here](https://pan.baidu.com/s/1M2GYhMPQHe6af_gvGT1Z1w).   🔑Extraction code: `89kx`
 
-## Frequency-domain Moiré AuGmentation (FMAG)
-
 ## DPAD Network Trained by FMAG
 
 ### Training
@@ -50,7 +48,7 @@ We use **SRDID162** for testing. You can download the dataset [here](https://pan
 ### Testing 
 run `python main_backbone.py test`.
 
-## Masked Moiré Frequency Modeling (M²FM)
+## The code of Frequency-domain Moiré AuGmentation (FMAG) and Masked Moiré Frequency Modeling (M²FM) are coming soon.
 
 
 ## Citation
@@ -58,6 +56,13 @@ run `python main_backbone.py test`.
 If you find our work helpful in your research, please cite it as:
 
 ```
+@article{chen2025moire,
+  title={Moire Spectral Augmentation and Masked{\'{}} Frequency Modeling for Document Presentation Attack Detection},
+  author={Chen, Changsheng and Li, Youjie and Li, Bokang and Yu, Weifan and Chen, Baoying and Li, Bin and Huang, Jiwu},
+  journal={IEEE Transactions on Dependable and Secure Computing},
+  year={2025},
+  publisher={IEEE}
+}
 ```
 
 ## Acknowledgements
