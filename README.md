@@ -21,19 +21,14 @@ You can download the dataset [here](https://pan.baidu.com/s/1cSHTpfrWxP8nUyHTRZO
 
 We use **SRDID162** for testing. You can download the dataset [here](https://pan.baidu.com/s/1M2GYhMPQHe6af_gvGT1Z1w).   🔑Extraction code: `89kx`
 
-## Frequency-domain Moiré AuGmentation (FMAG)
-The FMAG is implemented in `FMAG.py` and run `python FMAG.py`.
-
-## DPAD Network Trained by FMAG
-
 **Preprocessing Steps**:
 1. Crop images into 224×224 patches.
-2. Apply data-level oversampling:
+2. Apply data-level oversampling only for training:
    - Duplicate genuine samples
    - Maintain class balance
-3. Please organise the training set as follows (0-legal; 1-recaptured):
+3. Please organise the dataset as follows (0-legal; 1-recaptured):
 ```plaintext
-DM/
+Dataset_name/
 ├── images/
 │   ├── 0/         
 │   │   ├── HUAWEIP9_0009_1.tif
@@ -42,6 +37,11 @@ DM/
 │       ├── IMG_20230521_231421_0_0.tif
 │       └── ...
 ```
+
+## Frequency-domain Moiré AuGmentation (FMAG)
+The FMAG is implemented in `FMAG.py` and run `python FMAG.py`.
+
+## DPAD Network Trained by FMAG
 
 ### Training
 
