@@ -69,6 +69,10 @@ python -m torch.distributed.launch --nproc_per_node=4 main_mfm_FAG.py
 --launcher="pytorch" --batch-size 36 --output ./output --tag experiment name
 ```
 
+### Testing
+First run `python mfm_FAG_test.py test`, then execute `python test-auc.py` to get image-level results.
+
+
 ## Citation
 
 If you find our work helpful in your research, please cite it as:
