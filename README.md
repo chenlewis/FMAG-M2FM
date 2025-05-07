@@ -62,7 +62,7 @@ run `python main_backbone.py test`.
 /home/lyj/MFM/61-RedmiNote5_0002_7.jpg                            legal      val
                 ...                                                ...       ...
 ```
-4. Run the training command.
+3. Run the training command.
 ```
 python -m torch.distributed.launch --nproc_per_node=4 main_mfm_FAG.py
 --cfg configs/vit_base/mfm_pretrain__vit_base__img224__300ep.yaml
