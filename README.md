@@ -70,7 +70,8 @@ python -m torch.distributed.launch --nproc_per_node=4 main_mfm_FAG.py
 ```
 
 ### Testing
-First run `python mfm_FAG_test.py test`, then execute `python test-auc.py` to get image-level results.
+1. Modify `MODEL RESUME`, `MODEL_FAG`, `FAG_CHECKPOINT`, and `test_data_root` in `mfm_FAG_test.py`.
+2. Run `python mfm_FAG_test.py test` first, then execute `python test-auc.py` to get image-level results.
 
 
 ## Citation
