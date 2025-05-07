@@ -38,7 +38,7 @@ _C.DATA.FILTER_TYPE = 'mfm'
 _C.DATA.SAMPLE_RATIO = 0.5
 # [MFM] First frequency mask radius
 # should be smaller than half of the image size
-_C.DATA.MASK_RADIUS1 = 16
+_C.DATA.MASK_RADIUS1 = 64
 # [MFM] Second frequency mask radius
 # should be larger than the first radius
 # only used when masking a frequency band
