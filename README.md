@@ -53,9 +53,9 @@ run `python main_backbone.py test`.
 
 ## Masked Moiré Frequency Modeling (M²FM).
 
-1.Modify the `CSV_TRAIN_PATH`, `MODEL_FAG`, `MODEL_NAME` in `config.py`.
-2.Please organise the training set as follows:
-3.Run the training command.
+1. Modify the `CSV_TRAIN_PATH`, `MODEL_FAG`, `MODEL_NAME` in `config.py`.
+2. Please organise the training set as follows:
+3. Run the training command.
 ```
 python -m torch.distributed.launch --nproc_per_node=4 main_mfm_FAG.py
 --cfg configs/vit_base/mfm_pretrain__vit_base__img224__300ep.yaml
