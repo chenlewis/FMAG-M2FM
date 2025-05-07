@@ -45,7 +45,7 @@ The FMAG is implemented in `FMAG.py` and run `python FMAG.py`.
 
 ### Training
 
-1. Modify the data path, backbone type, and training parameters in `config/config1.py`.
+1. Modify the data path, backbone type, and training parameters in `configs/config1.py`.
 2. run `python main_backbone.py train`.
 
 ### Testing 
