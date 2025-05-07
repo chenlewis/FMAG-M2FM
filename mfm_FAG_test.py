@@ -47,9 +47,6 @@ class DefaultConfig(object):
     env = 'default'
     vis_port = 8097
 
-    model = 'ViTB16'
-    # model = 'SwinB'
-
     test_data_root = '/home/data1/lyj/CMA/SRDID162_patch/images/'
 
     batch_size_1 = 32
