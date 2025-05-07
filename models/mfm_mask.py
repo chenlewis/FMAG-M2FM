@@ -7,15 +7,6 @@ import torchvision.transforms as T
 from timm.data import IMAGENET_DEFAULT_MEAN, IMAGENET_DEFAULT_STD
 from timm.models.layers import trunc_normal_
 from timm.models.resnet import Bottleneck, ResNet
-
-# from frequency_loss import FrequencyLoss
-# from swin_transformer import SwinTransformer
-# from utils import get_2d_sincos_pos_embed
-# from vision_transformer import VisionTransformer
-# from transformer_model import ViTB16
-# import matplotlib.pyplot as plt
-# from torchvision.transforms.functional import to_pil_image
-
 from .frequency_loss import FrequencyLoss
 from .swin_transformer import SwinTransformer
 from .utils import get_2d_sincos_pos_embed
@@ -23,7 +14,6 @@ from .vision_transformer import VisionTransformer
 from .transformer_model import ViTB16
 import matplotlib.pyplot as plt
 from torchvision.transforms.functional import to_pil_image
-
 
 
 class VisionTransformerForMFM(VisionTransformer):
