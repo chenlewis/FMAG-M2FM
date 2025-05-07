@@ -6,11 +6,11 @@ _C = CN()
 
 # Base config files
 _C.BASE = ['']
-_C.CSV_TRAIN_PATH = '/home/data1/lyj/MFM/D4_D1_Moire386_new.csv'
+_C.CSV_TRAIN_PATH = '/home/data1/lyj/MFM/train.csv'
 _C.MODEL_FAG = 'ViTB16'
 _C.MODEL_NAME = 'ViTB16'
 _C.FAG_CHECKPOINT = './models/ViTB16_FAG.pth'
-_C.EVAL_DATASET = './data/RDID162_noMoire_mini_patch.csv'
+_C.EVAL_DATASET = './data/val.csv'
 # -----------------------------------------------------------------------------
 # Data settings
 # -----------------------------------------------------------------------------
