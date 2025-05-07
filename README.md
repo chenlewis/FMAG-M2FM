@@ -55,7 +55,7 @@ First run `python main_backbone.py test`, then execute `python test-auc.py` to g
 
 ### Training
 1. Modify the `CSV_TRAIN_PATH`, `MODEL_FAG`, `MODEL_NAME`, and `FAG_CHECKPOINT` in `config.py`.
-2. The training CSV file should follow this structure:
+2. The train and val CSV file should follow this structure:
 ```
             Image_patch_path                                      Label      Type
 /home/lyj/MFM/3403-HUAWEIP9_HUAWEIP9_0003_43_MoireAug1_0.jpg      recap     train
