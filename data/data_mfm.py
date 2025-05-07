@@ -13,7 +13,7 @@ from .random_degradations import RandomBlur, RandomNoise
 class FreqMaskGenerator:
     def __init__(self,
                  input_size=224,
-                 mask_radius1=16,
+                 mask_radius1=64,
                  mask_radius2=999,
                  sample_ratio=0.5):
         self.input_size = input_size
@@ -119,14 +119,7 @@ def collate_fn(batch):
 
 
 def build_loader_mfm(config, logger):
-    # transform = MFMTransform(config)
-    # logger.info(f'Pre-train data transform:\n{transform}')
-
-    # dataset = ImageFolder(config.DATA.DATA_PATH, transform)
-    # logger.info(f'Build dataset: train images = {len(dataset)}')
     csv_root_list = [config.CSV_TRAIN_PATH]
-    # csv_root_list = ['/home/lbk/code/moire-fag/MFM-master/data/D1_phone+D4_noMoire_MoireAug1+Moire386.csv']
-    # csv_root_list = ['/home/lbk/code/moire-fag/MFM-master/data/RDID162_UltraMini_train_patch.csv']
     dataset = PatchCNN(csv_root_list, train=True)
     
     sampler = DistributedSampler(dataset, num_replicas=dist.get_world_size(), rank=dist.get_rank(), shuffle=True)
