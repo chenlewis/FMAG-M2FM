@@ -60,10 +60,6 @@ class PatchCNN(data.Dataset):
         
         normalize = T.Normalize(mean=[0.485, 0.456, 0.406],
                                 std=[0.229, 0.224, 0.225])
-        # self.transforms = T.Compose([
-        #     T.ToTensor(),
-        #     normalize
-        # ])
         self.transforms = T.Compose([
             T.ToTensor()
         ])
