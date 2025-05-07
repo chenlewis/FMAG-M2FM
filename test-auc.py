@@ -69,33 +69,21 @@ def evaluation2(csv_path, root='E:\MFM-master\img_results\ViT'):
     for i, data in enumerate(reader):
         if i == 0:
             continue
-        """"CMA"""
         score = float(data[1])
         filename = os.path.basename(data[0])
         filename_withoutprex = filename.split('.')
         label = int(data[2])
         if label==0:
-            parts = filename_withoutprex[0].split('_')[3:-2] # 162
-            # parts = filename_withoutprex[0].split('_')[:-2]
-            # parts = filename_withoutprex[0].split('_')[0] # SwMP
+            # parts = filename_withoutprex[0].split('_')[3:-2] # 162
+            parts = filename_withoutprex[0].split('_')[0] # SwMP
             # img_name = '_'.join(parts)
             # img_name=int(parts[0])
-            img_name=parts[0] # 162
-            # img_name = parts # SwMP
+            # img_name=parts[0] # 162
+            img_name = parts # SwMP
         else:
-            if filename.find('noMoire')!=-1 and filename.find('SUMSUNGS24E390HL')!=-1:
-                parts = filename_withoutprex[0].split('_')[1:-2]
-                img_name = 'Moire' + '_'+'_'.join(parts)
-            else:
-                parts = filename_withoutprex[0].split('_')[:-2]
-                img_name = '_'.join(parts)
+            parts = filename_withoutprex[0].split('_')[:-2]
+            img_name = '_'.join(parts)
 
-        # """SRDID162--SwoMP"""
-        # score = float(data[2])
-        #
-        # img_name = (data[1].split("/")[-2])
-        #
-        # label = 0 if len(img_name.split('_')) == 1 else 1
 
         # """"DLC"""
         # score = float(data[1])
