@@ -53,6 +53,8 @@ First run `python main_backbone.py test`, then execute `python test-auc.py` to g
 
 ## Masked Moiré Frequency Modeling (M²FM)
 
+You can download the original recaptured images (without moiré) in D<sub>1</sub> [here](https://pan.baidu.com/s/1cSHTpfrWxP8nUyHTRZOZ_g).  🔑Extraction code: `rtw1`
+
 ### Training
 1. Modify the `CSV_TRAIN_PATH`, `MODEL_FAG`, `MODEL_NAME`, and `FAG_CHECKPOINT` in `config.py`.
 2. The train and val CSV file should follow this structure:
