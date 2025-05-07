@@ -51,7 +51,16 @@ The FMAG is implemented in `FMAG.py` and run `python FMAG.py`.
 ### Testing 
 run `python main_backbone.py test`.
 
-## The code of Masked Moiré Frequency Modeling (M²FM) is coming soon.
+## Masked Moiré Frequency Modeling (M²FM).
+
+1.Modify the `CSV_TRAIN_PATH`, `MODEL_FAG`, `MODEL_NAME` in `config.py`.
+2.Please organise the training set as follows:
+3.Run the training command.
+```
+python -m torch.distributed.launch --nproc_per_node=4 main_mfm_FAG.py
+--cfg configs/vit_base/mfm_pretrain__vit_base__img224__300ep.yaml
+--launcher="pytorch" --batch-size 36 --output ./output --tag experiment name
+```
 
 ## Citation
 
