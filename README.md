@@ -51,7 +51,7 @@ The FMAG is implemented in `FMAG.py` and run `python FMAG.py`.
 ### Testing 
 run `python main_backbone.py test`.
 
-## Masked Moiré Frequency Modeling (M²FM).
+## Masked Moiré Frequency Modeling (M²FM)
 
 1. Modify the `CSV_TRAIN_PATH`, `MODEL_FAG`, `MODEL_NAME`, and `FAG_CHECKPOINT` in `config.py`.
 2. Please organise the training set as follows:
