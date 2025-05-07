@@ -49,7 +49,10 @@ DM/
 2. run `python main_backbone.py train`.
 
 ### Testing 
+1. Patch-level metric:
 run `python main_backbone.py test`.
+2. Image-level metric:
+run `python test-auc.py`.
 
 ## Masked Moiré Frequency Modeling (M²FM)
 
