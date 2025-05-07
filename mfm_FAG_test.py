@@ -14,20 +14,13 @@ from tqdm import tqdm
 config = _C.clone()
 _update_config_from_file(config, './mfm_pretrain__vit_base__img224__300ep.yaml')
 config.defrost()
-config.DATA.BATCH_SIZE = 24
-config.DATA.NUM_WORKERS = 4
-config.MODEL.RESUME = './mfm_fag_ViT1.pth'
+config.MODEL.RESUME = 'model checkpoint'
 
-# config.MODEL.RESUME = '/home/lyj/MFM/ckpt_epoch_22.pth'
 config.GPU = 0
 config.MODEL.VIT.DECODER.DEPTH = 0
 config.MODEL.VIT.DECODER.EMBED_DIM = 512
 config.MODEL.VIT.DECODER.NUM_HEADS = 16
-# config.MODEL_FAG = 'SwinB'
-# config.MODEL_NAME = 'SwinB_noMoire_1'
-# config.FAG_CHECKPOINT = './SwinB_FAG.pth'
 config.MODEL_FAG = 'ViTB16'
-config.MODEL_NAME = 'ViTB16_noMoire_1'
 config.FAG_CHECKPOINT = './models/ViTB16_FAG.pth'
 # about model
 
@@ -58,44 +51,32 @@ class DefaultConfig(object):
     # model = 'SwinB'
 
     test_data_root = '/home/data1/lyj/CMA/SRDID162_patch/images/'
-    # load_model_path = '/home/lyj/MFM/models/ViTB16_FAG.pth'
 
-    batch_size_0 = 32
     batch_size_1 = 32
 
     use_gpu = True
     use_multi_gpu = False
 
     num_workers = 0
-    print_freq = 20
     debug_file = ''
     ##test
 
     result_file = '/home/data1/lyj/MFM/MFM-ViT-162.csv'
-    max_epoch = 30
-    lr = 0.0001
-    lr_decay = 0.5
-    # lr = 0.0001
-    # lr_decay = 0.1
-    weight_decay = 1e-3
 
     def _parse(self, kwargs):
-        """
-        根据字典kwargs 更新 config参数
-        """
         for k, v in kwargs.items():
             if not hasattr(self, k):
                 warnings.warn("Warning: opt has not attribute %s" % k)
             setattr(self, k, v)
-        # 修改设备选择逻辑以适应多卡
+
         if self.use_gpu:
             if self.use_multi_gpu:
                 if t.cuda.device_count() > 1:
-                    self.device = t.device('cuda')  # 使用 DataParallel 时，不指定具体的GPU
+                    self.device = t.device('cuda') 
                 else:
-                    self.device = t.device('cuda:1')  # 如果只有一个GPU，默认使用 cuda:0
+                    self.device = t.device('cuda:1')  
             else:
-                self.device = t.device('cuda:0')  # 如果只有一个GPU，默认使用 cuda:0
+                self.device = t.device('cuda:0') 
         else:
             self.device = t.device('cpu')
         print('device', self.device)
@@ -107,17 +88,7 @@ class DefaultConfig(object):
 
 opt = DefaultConfig()
 
-
 def test(**kwargs):
-    # model_name = 'SwinB'
-    # # model_name = 'ViTB16'
-    # model_checkpoint = './SwinB_FAG.pth'
-    # # model_checkpoint = '/home/lyj/MFM/models/ViTB16_FAG.pth'
-    # model = getattr(models, model_name)()
-    # model.load_state_dict(torch.load(model_checkpoint, map_location='cpu'), strict=True)
-    # model.cuda(0)
-    # model.eval()
-    ##原始
     opt._parse(kwargs)
     model = build_mfm_mask_eval(config)
     checkpoint = torch.load(config.MODEL.RESUME, map_location='cpu')
@@ -162,7 +133,7 @@ def test(**kwargs):
     all_probabilities = []
     all_labels = []
     results = []
-    for ii, (data, label, path) in enumerate(tqdm(test_loader, desc="Processing")):  # 忽略标签
+    for ii, (data, label, path) in enumerate(tqdm(test_loader, desc="Processing")):  
         input = data.to(opt.device)
         # score = net(input)
         score = net(input, None)
@@ -170,13 +141,13 @@ def test(**kwargs):
         probability = F.softmax(score, dim=1)[:, 1].detach().tolist()
         batch_results = [(path_, probability_, label_.item() if label_.numel() > 0 else None) for path_, label_, probability_ in zip(path, label, probability)]
         all_probabilities.extend(probability)
-        all_labels.extend(label.cpu().tolist())  # 确保标签在CPU上，并转为列表
+        all_labels.extend(label.cpu().tolist()) 
         # results += batch_results
         results.extend(batch_results)
     write_csv(results, opt.result_file)
-    # 计算AUC
+    # AUC
     auc_score = metrics.roc_auc_score(all_labels, all_probabilities)
-    # 计算EER
+    # EER
     fpr, tpr, thresholds = metrics.roc_curve(all_labels, all_probabilities)
     fnr = 1 - tpr
     eer_threshold = thresholds[np.nanargmin(np.abs(fnr - fpr))]
@@ -188,11 +159,9 @@ def test(**kwargs):
 
 import pandas as pd
 def write_csv(results, file_name):
-    # 创建一个 DataFrame
     df = pd.DataFrame(results, columns=['Path', 'Score', 'label'])
-    # 使用 DataFrame 的 to_csv 方法写入 CSV
     # df.to_csv(file_name, index=False)
-    df.to_csv(file_name, mode='w', header=True, index=False)  # 使用覆盖模式写入文件
+    df.to_csv(file_name, mode='w', header=True, index=False)  
 
 def compute_eer(fpr, tpr, thresholds):
     """ Returns equal error rate (EER) and the corresponding threshold. """
